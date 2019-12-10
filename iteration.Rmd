@@ -1,0 +1,248 @@
+---
+title: "Iteration"
+output: github_document
+---
+
+```{r}
+library(tidyverse)
+
+df <- tibble(
+  a = rnorm(10),
+  b = rnorm(10),
+  c = rnorm(10),
+  d = rnorm(10)
+)
+
+view(df)
+```
+
+```{r}
+median(df$a)
+#> [1] -0.246
+median(df$b)
+#> [1] -0.287
+median(df$c)
+#> [1] -0.0567
+median(df$d)
+#> [1] 0.144
+```
+
+```{r}
+output <- vector("double", ncol(df))  # 1. output
+for (i in seq_along(df)) {            # 2. sequence
+  output[[i]] <- median(df[[i]])      # 3. body
+}
+output
+#> [1] -0.2458 -0.2873 -0.0567  0.1443
+```
+
+Exercises
+1.1
+```{r}
+for (i in seq_along(mtcars)){
+  mt_mean[[i]] <- mean(mtcars[[i]])
+}
+view(mt_mean)
+
+```
+1 .2
+```{r}
+for(i in seq_along(nycflights13::flights)){
+  tp[[i]] <- typeof(nycflights13::flights[[i]])
+}
+view(tp)
+```
+1.3
+```{r}
+for(i in seq_along(iris)){
+  unqi_iris <- unique(iris[[i]])
+}
+view(unqi_iris)
+```
+1.4
+```{r}
+vec = c(-10,0,10,100)
+for(i in seq_along(vec)){
+  gen_ra<-rnorm(10)
+}
+view(gen_ra)
+```
+2.
+
+```{r}
+#out <- ""
+#for (x in letters) {
+#  out <- stringr::str_c(out, x)
+#}
+
+out <-toString(letters)
+
+x <- sample(100)
+sd(x)
+
+x<-runif(100)
+
+cumsum(x)
+```
+
+```{r}
+humps <- c("five ","four ","three ","two ","one ","no ")
+h <- " humps. "
+line <- "Alice the camel has "
+so <- "So go, Alice go. \n"
+now <-"Now Alice is a horse \n"
+for(i in seq_along(humps)){
+  for(j in 1:5){
+    cat(line,humps[[i]],h,"\n")
+  }
+  if(i < length(humps)){
+    cat(so)
+  }
+  else{
+    cat(now)
+  }
+}
+
+```
+```{r}
+numbers <- c(
+      "ten", "nine", "eight", "seven", "six", "five",
+      "four", "three", "two", "one")
+for(i in seq_along(numbers)){
+ cat("There were ", numbers[[i]], " in the bed\n")
+ cat("and the little one said\n")
+ if(i < length(numbers)){
+   cat("roll over roll over\n")
+   cat("so they all rolled over and one fell out.\n\n")
+ }
+ else{
+   cat("I'm Lonely...\n")
+ }
+
+}
+
+```
+```{r}
+bottles <- " bottles of beer on the wall"
+bot2 <- " bottles of beer"
+less <- "Take one down pass it around,"
+for(i in 1:100){
+  if(i < 100){
+     cat(100-i,bottles,100-i,bot2,"\n")
+  cat("Take one down pass it around ",100-i, bottles,"\n\n")
+  }
+  else{
+    cat("No more bottles of beer on the wall, no more bottles of beer.\n")
+    cat("We've taken them down and passed them around; now we're drunk and passed out!")
+    
+  }
+}
+```
+```{r}
+output <- vector("integer", 0)
+for (i in seq_along(x)) {
+  output <- c(output, lengths(x[[i]]))
+}
+output
+```
+
+
+```{r}
+df <- tibble(
+  a = rnorm(10),
+  b = rnorm(10),
+  c = rnorm(10),
+  d = rnorm(10)
+)
+#view(df)
+rescale01 <- function(x) {
+  rng <- range(x, na.rm = TRUE)
+  view(rng)
+  (x - rng[1]) / (rng[2] - rng[1])
+}
+
+for (i in seq_along(df)){
+df[[i]] <- rescale01(df[[i]])
+}
+
+#view(df)
+```
+
+```{r}
+for (i in seq_along(x)) {
+  name <- names(x)[[i]]
+  value <- x[[i]]
+}
+
+
+```
+```{r}
+out <- vector("list", length(means))
+for (i in seq_along(means)) {
+  n <- sample(100, 1)
+  out[[i]] <- rnorm(n, means[[i]])
+}
+str(out)
+#> List of 3
+#>  $ : num [1:83] 0.367 1.13 -0.941 0.218 1.415 ...
+#>  $ : num [1:21] -0.485 -0.425 2.937 1.688 1.324 ...
+#>  $ : num [1:40] 2.34 1.59 2.93 3.84 1.3 ...
+str(unlist(out))
+#>  num [1:144] 0.367 1.13 -0.941 0.218 1.415 ...
+```
+
+
+while (condition) {
+  # body
+}
+
+```{r}
+for (i in seq_along(x)) {
+  # body
+}
+
+# Equivalent to
+i <- 1
+while (i <= length(x)) {
+  # body
+  i <- i + 1 
+}
+```
+
+```{r}
+flip <- function() sample(c("T", "H"), 1)
+
+flips <- 0
+nheads <- 0
+
+while (nheads < 3) {
+  if (flip() == "H") {
+    nheads <- nheads + 1
+  } else {
+    nheads <- 0
+  }
+  flips <- flips + 1
+}
+flips
+#> [1] 3
+```
+
+```{r}
+files <- dir("data/", pattern = "\\.csv$", full.names = TRUE)
+for (i in seq_along(files)){
+  df_list[[i]]<- read_csv(files[[i]])
+}
+df <- bind_rows(df_list)
+
+```
+
+Error when list only has some names, length of 0 when no names.
+
+
+```{r}
+function_name <- iris
+for(i in seq_along(function_name)){
+  mean(iris[i])
+}
+```
+
